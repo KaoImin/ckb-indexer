@@ -397,7 +397,7 @@ where
 
         batch.commit()?;
 
-        if block_number % self.prune_interval == 0 {
+        if block_number % self.prune_interval == 0 && block_number != 0 {
             self.prune()?;
         }
         Ok(())
