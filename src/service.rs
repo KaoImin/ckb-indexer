@@ -229,17 +229,17 @@ pub trait IndexerRpc {
 
 #[derive(Deserialize)]
 pub struct SearchKey {
-    script: Script,
-    script_type: ScriptType,
-    filter: Option<SearchKeyFilter>,
+    pub script: Script,
+    pub script_type: ScriptType,
+    pub filter: Option<SearchKeyFilter>,
 }
 
 #[derive(Deserialize, Default)]
 pub struct SearchKeyFilter {
-    script: Option<Script>,
-    output_data_len_range: Option<[Uint64; 2]>,
-    output_capacity_range: Option<[Uint64; 2]>,
-    block_range: Option<[BlockNumber; 2]>,
+    pub script: Option<Script>,
+    pub output_data_len_range: Option<[Uint64; 2]>,
+    pub output_capacity_range: Option<[Uint64; 2]>,
+    pub block_range: Option<[BlockNumber; 2]>,
 }
 
 #[derive(Deserialize)]
@@ -285,11 +285,11 @@ pub struct Cell {
 
 #[derive(Serialize)]
 pub struct Tx {
-    tx_hash: H256,
-    block_number: BlockNumber,
-    tx_index: Uint32,
-    io_index: Uint32,
-    io_type: IOType,
+    pub tx_hash: H256,
+    pub block_number: BlockNumber,
+    pub tx_index: Uint32,
+    pub io_index: Uint32,
+    pub io_type: IOType,
 }
 
 #[derive(Serialize)]
@@ -301,8 +301,8 @@ pub enum IOType {
 
 #[derive(Serialize)]
 pub struct Pagination<T> {
-    objects: Vec<T>,
-    last_cursor: JsonBytes,
+    pub objects: Vec<T>,
+    pub last_cursor: JsonBytes,
 }
 
 pub struct IndexerRpcImpl {
@@ -676,7 +676,7 @@ impl IndexerRpc for IndexerRpcImpl {
 const MAX_PREFIX_SEARCH_SIZE: usize = u16::max_value() as usize;
 
 // a helper fn to build query options from search paramters, returns prefix, from_key, direction and skip offset
-fn build_query_options(
+pub fn build_query_options(
     search_key: &SearchKey,
     lock_prefix: KeyPrefix,
     type_prefix: KeyPrefix,
@@ -722,7 +722,7 @@ fn build_query_options(
 }
 
 // a helper fn to build filter options from search paramters, returns prefix, output_data_len_range, output_capacity_range and block_range
-fn build_filter_options(
+pub fn build_filter_options(
     search_key: SearchKey,
 ) -> Result<(
     Option<Vec<u8>>,
